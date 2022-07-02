@@ -1,0 +1,94 @@
+[
+    {
+        "name": "HDFC Bank",
+        "logo": "https://content.jdmagicbox.com/comp/hyderabad/r4/040pxx40.xx40.001070208173.g6r4/catalogue/hdfc-bank-ltd-gachibowli-hyderabad-banks-6kb86uim7p.jpg",
+        "account": "Savings A/C",
+        "acc_number": "XX2652",
+        "balance": 54285.00,
+        "interest" : 2.5,
+        "transactions": [
+            {
+                "date": "2021-02-08",
+                "amount": 2500.00,
+                "credit": false,
+                "description": "PGVCL Electricity Bill"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 1500.00,
+                "credit": false,
+                "description": "ATM Withdrawal"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 1400.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 8500.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-02",
+                "amount": 1200.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-01",
+                "amount": 1200.00,
+                "credit": false,
+                "description": "ATM Withdrawal"
+            }
+        ]
+    },
+    {
+        "name": "Federal Card",
+        "logo": "https://blogmedia.testbook.com/blog/wp-content/uploads/2022/03/federal-bank-logo-9d94fcdd.jpg",
+        "account": "Savings A/C",
+        "acc_number": "XX7682",
+        "balance": 544585.00,
+        "interest" : 3.0,
+        "transactions": [
+            {
+                "date": "2021-02-08",
+                "amount": 2500.00,
+                "credit": false,
+                "description": "PGVCL Electricity Bill"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 1500.00,
+                "credit": false,
+                "description": "ATM Withdrawal"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 1400.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-03",
+                "amount": 8500.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-02",
+                "amount": 1200.00,
+                "credit": true,
+                "description": "ATM Deposit"
+            },
+            {
+                "date": "2021-02-01",
+                "amount": 1200.00,
+                "credit": false,
+                "description": "ATM Withdrawal"
+            }
+        ]
+    }
+]
