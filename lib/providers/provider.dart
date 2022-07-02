@@ -9,13 +9,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 List<Bank> bankList = [];
 List<Bank> sortedBankList = [];
 
-List filters = [];
+final filtersProvider = StateProvider((ref) => {
+      "lto": false,
+      "otl": false,
+      "credit": false,
+      "debit": false,
+      "range": false,
+    });
 
 final isCheckedProvider = StateProvider((ref) => [false, false, false]);
-
-String? time;
-//List<bool> isChecked = [false, false, false];
-RangeValues currentRangeValues = const RangeValues(1000, 80000);
+final timeProvider = StateProvider((ref) => '');
+final rangeProvider = StateProvider((ref) => const RangeValues(1000, 80000));
 
 Future<List<Bank>> fetchBank() async {
   final response = await rootBundle.loadString('assets/data.json');

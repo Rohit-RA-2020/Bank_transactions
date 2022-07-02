@@ -9,7 +9,9 @@ class FilterSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isChecked = ref.watch(isCheckedProvider);
+    final time = ref.watch(timeProvider);
+    final range = ref.watch(rangeProvider);
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.72,
       decoration: const BoxDecoration(
@@ -65,7 +67,15 @@ class FilterSheet extends ConsumerWidget {
               value: "lto",
               groupValue: time,
               onChanged: (value) {
-                time = value.toString();
+                ref.read(timeProvider.notifier).state = value.toString();
+                final lto = ref
+                    .read(filtersProvider.notifier)
+                    .state
+                    .update('lto', (st) => value == 'lto' ? true : false);
+                ref
+                    .read(filtersProvider.notifier)
+                    .state
+                    .update('otl', (st) => value == !lto);
               },
             ),
             contentPadding:
@@ -78,7 +88,15 @@ class FilterSheet extends ConsumerWidget {
               value: "otl",
               groupValue: time,
               onChanged: (value) {
-                time = value.toString();
+                ref.read(timeProvider.notifier).state = value.toString();
+                final otl = ref
+                    .read(filtersProvider.notifier)
+                    .state
+                    .update('otl', (st) => value == 'otl' ? true : false);
+                ref
+                    .read(filtersProvider.notifier)
+                    .state
+                    .update('lto', (st) => value == !otl);
               },
             ),
             contentPadding:
@@ -111,6 +129,10 @@ class FilterSheet extends ConsumerWidget {
                       ref.watch(isCheckedProvider)[1],
                       ref.watch(isCheckedProvider)[2],
                     ];
+                    ref
+                        .read(filtersProvider.notifier)
+                        .state
+                        .update('credit', (st) => value);
                   },
                 ),
                 const Text('Credit', style: TextStyle(fontSize: 16)),
@@ -129,6 +151,10 @@ class FilterSheet extends ConsumerWidget {
                       value!,
                       ref.watch(isCheckedProvider)[2],
                     ];
+                    ref
+                        .read(filtersProvider.notifier)
+                        .state
+                        .update('debit', (st) => value);
                   },
                 ),
                 const Text('Debit', style: TextStyle(fontSize: 16)),
@@ -147,10 +173,14 @@ class FilterSheet extends ConsumerWidget {
                       ref.watch(isCheckedProvider)[1],
                       value!,
                     ];
+                    ref
+                        .read(filtersProvider.notifier)
+                        .state
+                        .update('range', (st) => value);
                   },
                 ),
                 Text(
-                  'Amount Between ${currentRangeValues.start.round()} and ${currentRangeValues.end.round()}',
+                  'Amount Between ${range.start.round()} and ${range.end.round()}',
                   style: const TextStyle(fontSize: 16),
                 ),
               ],
@@ -158,16 +188,18 @@ class FilterSheet extends ConsumerWidget {
           ),
           const SizedBox(height: 20),
           RangeSlider(
-            values: currentRangeValues,
+            values: range,
             max: 100000,
             divisions: 100,
             labels: RangeLabels(
-              '₹${currentRangeValues.start.round()}',
-              '₹${currentRangeValues.end.round()}',
+              '₹${range.start.round()}',
+              '₹${range.end.round()}',
             ),
-            onChanged: (RangeValues values) {
-              currentRangeValues = values;
-            },
+            onChanged: ref.watch(isCheckedProvider)[2]
+                ? (RangeValues values) {
+                    ref.watch(rangeProvider.notifier).state = values;
+                  }
+                : null,
           ),
           Row(
             children: [
@@ -183,7 +215,10 @@ class FilterSheet extends ConsumerWidget {
                             const BorderSide(width: 1.5, color: Colors.indigo),
                       ),
                       onPressed: () {
-                        Navigator.pop(context);
+                        ref.refresh(isCheckedProvider);
+                        ref.refresh(timeProvider);
+                        ref.refresh(rangeProvider);
+                        ref.refresh(filtersProvider);
                       },
                       child: const Text(
                         'Reset',

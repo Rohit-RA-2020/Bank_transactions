@@ -42,23 +42,54 @@ class TransactionsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isChecked = ref.watch(isCheckedProvider);
+    final time = ref.watch(timeProvider);
+    final range = ref.watch(rangeProvider);
+    sortedBankList = bankList;
+    if (time == 'lto') {
+      sortedBankList[index]
+          .transactions
+          .sort(((a, b) => b.date.compareTo(a.date)));
+    } else {
+      sortedBankList = bankList;
+    }
     return ListView.builder(
       shrinkWrap: true,
       physics: const ScrollPhysics(),
-      itemCount: bankList[index].transactions.length,
+      itemCount: sortedBankList[index].transactions.length,
       itemBuilder: (context, idx) {
-        if (isChecked[0] && isChecked[1]) {
-          return TransactionCardItem(index: index, idx: idx);
-        } else if (isChecked[1]) {
-          return !bankList[index].transactions[idx].credit
-              ? TransactionCardItem(index: index, idx: idx)
-              : const SizedBox.shrink();
-        } else if (isChecked[0]) {
-          return !bankList[index].transactions[idx].credit
-              ? TransactionCardItem(index: index, idx: idx)
-              : const SizedBox.shrink();
+        if (isChecked[2]) {
+          if (sortedBankList[index].transactions[idx].amount > range.start &&
+              sortedBankList[index].transactions[idx].amount < range.end) {
+            if (isChecked[0] && isChecked[1]) {
+              return TransactionCardItem(index: index, idx: idx);
+            } else if (isChecked[1]) {
+              return !sortedBankList[index].transactions[idx].credit
+                  ? TransactionCardItem(index: index, idx: idx)
+                  : const SizedBox.shrink();
+            } else if (isChecked[0]) {
+              return sortedBankList[index].transactions[idx].credit
+                  ? TransactionCardItem(index: index, idx: idx)
+                  : const SizedBox.shrink();
+            } else {
+              return TransactionCardItem(index: index, idx: idx);
+            }
+          } else {
+            return const SizedBox.shrink();
+          }
         } else {
-          return TransactionCardItem(index: index, idx: idx);
+          if (isChecked[0] && isChecked[1]) {
+            return TransactionCardItem(index: index, idx: idx);
+          } else if (isChecked[1]) {
+            return !sortedBankList[index].transactions[idx].credit
+                ? TransactionCardItem(index: index, idx: idx)
+                : const SizedBox.shrink();
+          } else if (isChecked[0]) {
+            return sortedBankList[index].transactions[idx].credit
+                ? TransactionCardItem(index: index, idx: idx)
+                : const SizedBox.shrink();
+          } else {
+            return TransactionCardItem(index: index, idx: idx);
+          }
         }
       },
     );
